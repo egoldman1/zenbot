@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Zenbot",
+  "version": "0.1.0",
+  "description": "Turn a short note into a complete Zendesk reply.",
+  "permissions": ["scripting", "storage"],
+  "host_permissions": ["https://api.openai.com/*", "https://*.zendesk.com/*"],
+  "background": {
+    "service_worker": "background.mjs",
+    "type": "module"
+  },
+  "content_scripts": [{
+    "matches": ["https://*.zendesk.com/agent/tickets/*"],
+    "js": ["content.js"]
+  }],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
