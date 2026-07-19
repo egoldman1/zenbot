@@ -1,0 +1,83 @@
+<div class="zenbot-shell">
+  <h2 class="zenbot-title">Zenbot</h2>
+  <div class="zenbot-tabs" role="tablist" aria-label="Zenbot sections">
+    <button id="zenbot-home-tab" type="button" role="tab" aria-selected="true" aria-controls="zenbot-home">Home</button>
+    <button id="zenbot-settings-tab" type="button" role="tab" aria-selected="false" aria-controls="zenbot-settings">Settings</button>
+  </div>
+
+  <div id="zenbot-home" role="tabpanel" aria-labelledby="zenbot-home-tab">
+    <section class="zenbot-summary-section">
+      <h3>Ticket summary</h3>
+      <ul id="zenbot-summary"></ul>
+      <h3>Next steps</h3>
+      <ul id="zenbot-next-steps"></ul>
+      <p id="zenbot-summary-status" class="zenbot-secondary-status" role="status" aria-live="polite">Loading preferences…</p>
+      <button id="zenbot-summarize" class="zenbot-secondary-button" type="button">Summarize ticket</button>
+    </section>
+    <label class="zenbot-field-label" for="zenbot-note">What should the reply say?</label>
+    <p id="zenbot-reply-requirement">A ticket summary must be made before generating a reply. You can change this behaviour in Settings.</p>
+    <textarea id="zenbot-note" rows="7" placeholder="Type your draft response here..."></textarea>
+    <button id="zenbot-generate" class="zenbot-primary-button" type="button" disabled>Generate reply</button>
+    <p id="zenbot-status" class="zenbot-status" role="status" aria-live="polite"></p>
+  </div>
+
+  <div id="zenbot-settings" role="tabpanel" aria-labelledby="zenbot-settings-tab" hidden>
+    <form id="zenbot-settings-form">
+      <details>
+        <summary>Personalisation</summary>
+        <div class="zenbot-settings-fields">
+          <div class="zenbot-setting-heading"><label for="zenbot-signature">Custom email signature</label><button class="zenbot-info" type="button" data-info="signature" aria-label="About custom email signatures">i</button></div>
+          <textarea id="zenbot-signature" rows="4" placeholder="Kind regards,&#10;Alex"></textarea>
+          <div class="zenbot-setting-heading"><label for="zenbot-tone">Custom tone instructions</label><button class="zenbot-info" type="button" data-info="tone" aria-label="About custom tone instructions">i</button></div>
+          <textarea id="zenbot-tone" rows="4" placeholder="Friendly, calm and straightforward."></textarea>
+          <div class="zenbot-setting-heading"><label for="zenbot-response-length">Default response length</label><button class="zenbot-info" type="button" data-info="responseLength" aria-label="About response length">i</button></div>
+          <select id="zenbot-response-length"><option value="concise">Concise</option><option value="balanced">Balanced</option><option value="detailed">Detailed</option></select>
+        </div>
+      </details>
+
+      <details>
+        <summary>Workflow</summary>
+        <div class="zenbot-settings-fields">
+          <div class="zenbot-toggle-row">
+            <label class="zenbot-toggle-label">
+              <input id="zenbot-auto-summarize" type="checkbox">
+              <span><strong>Automatically summarize tickets</strong><br><span class="zenbot-muted">Create a summary when Zenbot opens.</span></span>
+            </label>
+            <button class="zenbot-info" type="button" data-info="autoSummarize" aria-label="About automatic summaries">i</button>
+          </div>
+          <div class="zenbot-toggle-row zenbot-toggle-spaced">
+            <label class="zenbot-toggle-label">
+              <input id="zenbot-use-summary" type="checkbox">
+              <span><strong>Use summary for responses</strong><br><span class="zenbot-muted">Otherwise, use the full ticket.</span></span>
+            </label>
+            <button class="zenbot-info" type="button" data-info="responseSource" aria-label="About response context">i</button>
+          </div>
+          <div class="zenbot-setting-heading"><label for="zenbot-summary-detail">Summary detail level</label><button class="zenbot-info" type="button" data-info="summaryDetail" aria-label="About summary detail">i</button></div>
+          <select id="zenbot-summary-detail"><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select>
+        </div>
+      </details>
+
+      <details>
+        <summary>Advanced</summary>
+        <div class="zenbot-settings-fields">
+          <div class="zenbot-setting-heading"><label for="zenbot-summary-model">Summary model</label><button class="zenbot-info" type="button" data-info="summaryModel" aria-label="About the summary model">i</button></div>
+          <select id="zenbot-summary-model"><option value="gpt-5.6-luna">gpt-5.6-luna</option><option value="gpt-5.6-sol">gpt-5.6-sol</option></select>
+          <div class="zenbot-setting-heading"><label for="zenbot-response-model">Response model</label><button class="zenbot-info" type="button" data-info="responseModel" aria-label="About the response model">i</button></div>
+          <select id="zenbot-response-model"><option value="gpt-5.6-sol">gpt-5.6-sol</option><option value="gpt-5.6-luna">gpt-5.6-luna</option></select>
+        </div>
+      </details>
+      <button class="zenbot-primary-button" type="submit">Save settings</button>
+      <p id="zenbot-settings-status" class="zenbot-status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+
+  <div id="zenbot-info-overlay" hidden>
+    <div class="zenbot-info-dialog" role="dialog" aria-modal="true" aria-labelledby="zenbot-info-title">
+      <div class="zenbot-info-header">
+        <h3 id="zenbot-info-title"></h3>
+        <button id="zenbot-info-close" type="button" aria-label="Close information">×</button>
+      </div>
+      <div id="zenbot-info-content"></div>
+    </div>
+  </div>
+</div>

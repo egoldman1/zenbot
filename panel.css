@@ -1,0 +1,71 @@
+#zenbot-omnipanel-item { list-style: none; display: flex; justify-content: center; }
+#zenbot-omnipanel-item > button { width: 40px; height: 40px; border: 0; border-radius: 4px; background: transparent; color: #68737d; font: 700 16px system-ui; cursor: pointer; }
+
+#zenbot-panel {
+  display: none;
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+#zenbot-panel .zenbot-shell {
+  height: 100%;
+  overflow: auto;
+  padding: 20px;
+  box-sizing: border-box;
+  color: #2f3941;
+  font: 14px system-ui;
+}
+
+#zenbot-panel .zenbot-title { margin: 0 0 14px; font-size: 18px; }
+#zenbot-panel .zenbot-tabs { display: flex; margin: 0 0 20px; border-bottom: 1px solid #d8dcde; }
+#zenbot-panel .zenbot-tabs button { flex: 1; padding: 10px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: #68737d; font: 600 14px system-ui; cursor: pointer; }
+#zenbot-panel #zenbot-home-tab { border-bottom-color: #1f73b7; color: #1f73b7; }
+#zenbot-panel .zenbot-summary-section { margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #d8dcde; }
+#zenbot-panel .zenbot-summary-section h3 { margin: 0 0 8px; font-size: 14px; }
+#zenbot-panel #zenbot-summary { margin: 0 0 16px; padding-left: 20px; list-style: disc outside; }
+#zenbot-panel #zenbot-next-steps { margin: 0; padding-left: 20px; list-style: disc outside; }
+#zenbot-panel .zenbot-summary-item { display: list-item; margin-bottom: 6px; }
+#zenbot-panel .zenbot-secondary-status { margin: 8px 0 0; color: #68737d; }
+#zenbot-panel .zenbot-secondary-button { margin-top: 10px; padding: 8px 10px; border: 1px solid #1f73b7; border-radius: 4px; background: #fff; color: #1f73b7; font: 600 13px system-ui; cursor: pointer; }
+#zenbot-panel .zenbot-field-label { display: block; margin-bottom: 6px; font-weight: 600; }
+#zenbot-panel #zenbot-reply-requirement { display: none; margin: 0 0 9px; padding: 9px; border-radius: 4px; background: #fff4ce; color: #5e4b00; line-height: 1.4; }
+#zenbot-panel textarea { box-sizing: border-box; width: 100%; padding: 9px; border: 1px solid #87929d; border-radius: 4px; resize: vertical; font: inherit; }
+#zenbot-panel #zenbot-note { padding: 10px; }
+#zenbot-panel .zenbot-primary-button { margin-top: 20px; padding: 10px; border: 0; border-radius: 4px; background: #1f73b7; color: #fff; font: 600 14px system-ui; cursor: pointer; }
+#zenbot-panel #zenbot-generate { margin-top: 12px; }
+#zenbot-panel .zenbot-status { margin: 12px 0 0; color: #68737d; }
+
+#zenbot-settings select { display: block !important; width: 100% !important; height: 42px !important; min-height: 42px !important; padding: 0 36px 0 10px !important; border: 1px solid #87929d !important; border-radius: 4px !important; background-color: #fff !important; color: #2f3941 !important; color-scheme: light; font: 14px/20px system-ui !important; opacity: 1 !important; -webkit-appearance: menulist !important; appearance: auto !important; }
+#zenbot-settings select option { background: #fff !important; color: #2f3941 !important; font: 14px system-ui !important; }
+#zenbot-settings details { margin-bottom: 10px; border: 1px solid #d8dcde; border-radius: 5px; background: #fff; }
+#zenbot-settings summary { display: flex; align-items: center; justify-content: space-between; padding: 13px; font-weight: 600; cursor: pointer; list-style: none; }
+#zenbot-settings summary::-webkit-details-marker { display: none; }
+#zenbot-settings summary::after { content: "+"; color: #68737d; font-size: 18px; }
+#zenbot-settings details[open] summary::after { content: "−"; }
+#zenbot-settings .zenbot-settings-fields { padding: 2px 13px 15px; }
+#zenbot-settings .zenbot-setting-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 14px 0 6px; }
+#zenbot-settings .zenbot-setting-heading:first-child { margin-top: 0; }
+#zenbot-settings .zenbot-setting-heading label { font-weight: 600; }
+#zenbot-settings .zenbot-toggle-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+#zenbot-settings .zenbot-toggle-spaced { margin-top: 16px; }
+#zenbot-settings .zenbot-toggle-label { display: flex; align-items: flex-start; gap: 9px; cursor: pointer; }
+#zenbot-settings .zenbot-toggle-label input { margin-top: 2px; }
+#zenbot-settings .zenbot-muted { color: #68737d; }
+#zenbot-settings .zenbot-info { flex: 0 0 auto; width: 22px; height: 22px; padding: 0; border: 1px solid #87929d; border-radius: 50%; background: #fff; color: #1f73b7; font: 700 12px system-ui; cursor: pointer; }
+#zenbot-note:disabled { background: #f4f5f6; color: #87929d; cursor: not-allowed; }
+#zenbot-generate:disabled { background: #aeb7bf !important; cursor: not-allowed !important; }
+
+#zenbot-info-overlay { position: absolute; inset: 0; z-index: 20; padding: 20px; box-sizing: border-box; background: rgba(23, 32, 42, .45); align-items: center; justify-content: center; }
+#zenbot-info-overlay[hidden] { display: none; }
+#zenbot-info-overlay .zenbot-info-dialog { width: 100%; max-width: 340px; max-height: 80%; overflow: auto; padding: 18px; box-sizing: border-box; border-radius: 6px; background: #fff; box-shadow: 0 8px 24px rgba(0, 0, 0, .25); }
+#zenbot-info-overlay .zenbot-info-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+#zenbot-info-overlay #zenbot-info-title { margin: 0; font-size: 16px; }
+#zenbot-info-overlay #zenbot-info-close { width: 28px; height: 28px; padding: 0; border: 0; background: transparent; color: #68737d; font: 20px system-ui; cursor: pointer; }
+#zenbot-info-overlay #zenbot-info-content { margin-top: 14px; }
+#zenbot-info-overlay .zenbot-info-option { margin-bottom: 14px; }
+#zenbot-info-overlay .zenbot-info-option h4 { margin: 0 0 4px; font-size: 14px; }
+#zenbot-info-overlay .zenbot-info-option p { margin: 0; color: #49545c; line-height: 1.45; }

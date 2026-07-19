@@ -11,7 +11,12 @@
   },
   "content_scripts": [{
     "matches": ["https://*.zendesk.com/agent/tickets/*"],
-    "js": ["content.js"]
+    "css": ["panel.css"],
+    "js": ["settings-info.js", "content.js"]
+  }],
+  "web_accessible_resources": [{
+    "resources": ["panel.html"],
+    "matches": ["https://*.zendesk.com/*"]
   }],
   "action": {
     "default_popup": "popup.html"
