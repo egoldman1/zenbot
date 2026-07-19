@@ -1,6 +1,7 @@
 import {
   DEFAULT_SETTINGS,
   DRAFT_INSTRUCTIONS,
+  MODEL_REASONING_EFFORTS,
   appendSignature,
   draftingPreferences,
   normalizeSettings,
@@ -16,6 +17,9 @@ const panelCss = readFileSync(new URL("./panel.css", import.meta.url), "utf8");
 const settingsInfo = readFileSync(new URL("./settings-info.js", import.meta.url), "utf8");
 console.assert(panelHtml.includes('id="zenbot-home"'));
 console.assert(panelHtml.includes('id="zenbot-settings-form"'));
+console.assert(panelHtml.includes('id="zenbot-generation-time"'));
+console.assert(panelHtml.includes("gpt-5.6-luna (Default — recommended)"));
+console.assert(panelHtml.includes("gpt-5.6-sol (Default — recommended)"));
 console.assert(!panelHtml.includes("<script"));
 console.assert(panelCss.includes("#zenbot-settings select"));
 console.assert(settingsInfo.includes("ZENBOT_SETTING_INFO"));
@@ -31,6 +35,8 @@ console.assert(DRAFT_INSTRUCTIONS.includes("either the full ticket or a generate
 console.assert(normalizeSettings({ responseLength: "invalid", autoSummarize: false }).responseLength === "balanced");
 console.assert(normalizeSettings({ useSummaryForResponse: true }).useSummaryForResponse === true);
 console.assert(normalizeSettings({ summaryModel: "unknown" }).summaryModel === DEFAULT_SETTINGS.summaryModel);
+console.assert(normalizeSettings({ summaryModel: "unsupported-model" }).summaryModel === DEFAULT_SETTINGS.summaryModel);
+console.assert(MODEL_REASONING_EFFORTS["gpt-5.6-sol"].includes("max"));
 console.assert(draftingPreferences({ responseLength: "concise", toneInstructions: "Direct and calm.", signature: "Alex" }).includes("Direct and calm."));
 console.assert(appendSignature("Hello", "Kind regards,\nAlex") === "Hello\n\nKind regards,\nAlex");
 console.assert(responseContext({ useSummaryForResponse: false }, null, { subject: "Login", messages: "Cannot sign in" }).includes("FULL ZENDESK TICKET"));

@@ -46,6 +46,7 @@ After changing extension files, select **Reload** on the Chrome extensions page 
 7. Edit and submit it manually when satisfied.
 
 Use **Shift+Enter** to add a new line to the instruction instead of generating a reply.
+Zenbot displays the model-generation time beside the Generate reply button after each successful response.
 
 ## Settings
 
@@ -69,6 +70,7 @@ When summary-based response generation is enabled, Zenbot disables the reply con
 
 - Summary model selection
 - Response-generation model selection
+- Reasoning-effort controls for supported models
 
 Each setting includes an information button explaining the available options and their trade-offs.
 

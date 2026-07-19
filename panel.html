@@ -17,7 +17,10 @@
     <label class="zenbot-field-label" for="zenbot-note">What should the reply say?</label>
     <p id="zenbot-reply-requirement">A ticket summary must be made before generating a reply. You can change this behaviour in Settings.</p>
     <textarea id="zenbot-note" rows="7" placeholder="Type your draft response here..."></textarea>
-    <button id="zenbot-generate" class="zenbot-primary-button" type="button" disabled>Generate reply</button>
+    <div class="zenbot-generate-row">
+      <button id="zenbot-generate" class="zenbot-primary-button" type="button" disabled>Generate reply</button>
+      <span id="zenbot-generation-time" aria-live="polite"></span>
+    </div>
     <p id="zenbot-status" class="zenbot-status" role="status" aria-live="polite"></p>
   </div>
 
@@ -61,9 +64,19 @@
         <summary>Advanced</summary>
         <div class="zenbot-settings-fields">
           <div class="zenbot-setting-heading"><label for="zenbot-summary-model">Summary model</label><button class="zenbot-info" type="button" data-info="summaryModel" aria-label="About the summary model">i</button></div>
-          <select id="zenbot-summary-model"><option value="gpt-5.6-luna">gpt-5.6-luna</option><option value="gpt-5.6-sol">gpt-5.6-sol</option></select>
+          <select id="zenbot-summary-model"><option value="gpt-5.6-luna">gpt-5.6-luna (Default — recommended)</option><option value="gpt-5.6-sol">gpt-5.6-sol</option></select>
+          <div class="zenbot-reasoning-control" data-reasoning="summary">
+            <div class="zenbot-setting-heading"><label for="zenbot-summary-reasoning">Reasoning effort: <output id="zenbot-summary-reasoning-value">None</output></label><button class="zenbot-info" type="button" data-info="reasoningEffort" aria-label="About reasoning effort">i</button></div>
+            <input id="zenbot-summary-reasoning" type="range" min="0" max="5" step="1" value="0">
+            <div class="zenbot-range-labels"><span>Faster</span><span>More reasoning</span></div>
+          </div>
           <div class="zenbot-setting-heading"><label for="zenbot-response-model">Response model</label><button class="zenbot-info" type="button" data-info="responseModel" aria-label="About the response model">i</button></div>
-          <select id="zenbot-response-model"><option value="gpt-5.6-sol">gpt-5.6-sol</option><option value="gpt-5.6-luna">gpt-5.6-luna</option></select>
+          <select id="zenbot-response-model"><option value="gpt-5.6-sol">gpt-5.6-sol (Default — recommended)</option><option value="gpt-5.6-luna">gpt-5.6-luna</option></select>
+          <div class="zenbot-reasoning-control" data-reasoning="response">
+            <div class="zenbot-setting-heading"><label for="zenbot-response-reasoning">Reasoning effort: <output id="zenbot-response-reasoning-value">None</output></label><button class="zenbot-info" type="button" data-info="reasoningEffort" aria-label="About reasoning effort">i</button></div>
+            <input id="zenbot-response-reasoning" type="range" min="0" max="5" step="1" value="0">
+            <div class="zenbot-range-labels"><span>Faster</span><span>More reasoning</span></div>
+          </div>
         </div>
       </details>
       <button class="zenbot-primary-button" type="submit">Save settings</button>

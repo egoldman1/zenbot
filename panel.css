@@ -36,7 +36,9 @@
 #zenbot-panel textarea { box-sizing: border-box; width: 100%; padding: 9px; border: 1px solid #87929d; border-radius: 4px; resize: vertical; font: inherit; }
 #zenbot-panel #zenbot-note { padding: 10px; }
 #zenbot-panel .zenbot-primary-button { margin-top: 20px; padding: 10px; border: 0; border-radius: 4px; background: #1f73b7; color: #fff; font: 600 14px system-ui; cursor: pointer; }
-#zenbot-panel #zenbot-generate { margin-top: 12px; }
+#zenbot-panel .zenbot-generate-row { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+#zenbot-panel #zenbot-generate { margin-top: 0; }
+#zenbot-panel #zenbot-generation-time { color: #68737d; font-size: 13px; white-space: nowrap; }
 #zenbot-panel .zenbot-status { margin: 12px 0 0; color: #68737d; }
 
 #zenbot-settings select { display: block !important; width: 100% !important; height: 42px !important; min-height: 42px !important; padding: 0 36px 0 10px !important; border: 1px solid #87929d !important; border-radius: 4px !important; background-color: #fff !important; color: #2f3941 !important; color-scheme: light; font: 14px/20px system-ui !important; opacity: 1 !important; -webkit-appearance: menulist !important; appearance: auto !important; }
@@ -56,6 +58,12 @@
 #zenbot-settings .zenbot-toggle-label input { margin-top: 2px; }
 #zenbot-settings .zenbot-muted { color: #68737d; }
 #zenbot-settings .zenbot-info { flex: 0 0 auto; width: 22px; height: 22px; padding: 0; border: 1px solid #87929d; border-radius: 50%; background: #fff; color: #1f73b7; font: 700 12px system-ui; cursor: pointer; }
+#zenbot-settings .zenbot-reasoning-control { margin: 10px 0 18px; padding: 10px; border-radius: 4px; background: #f7f8f8; }
+#zenbot-settings .zenbot-reasoning-control .zenbot-setting-heading { margin-top: 0; }
+#zenbot-settings .zenbot-reasoning-control input[type="range"] { width: 100%; margin: 5px 0 0; accent-color: #1f73b7; }
+#zenbot-settings .zenbot-range-labels { display: flex; justify-content: space-between; color: #68737d; font-size: 11px; }
+#zenbot-settings .zenbot-reasoning-control.is-disabled { opacity: .55; }
+#zenbot-settings .zenbot-reasoning-control output { color: #1f73b7; font-weight: 600; }
 #zenbot-note:disabled { background: #f4f5f6; color: #87929d; cursor: not-allowed; }
 #zenbot-generate:disabled { background: #aeb7bf !important; cursor: not-allowed !important; }
 

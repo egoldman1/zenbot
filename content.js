@@ -12,10 +12,16 @@ const DEFAULT_SETTINGS = {
   useSummaryForResponse: false,
   summaryDetail: "medium",
   summaryModel: "gpt-5.6-luna",
+  summaryReasoningEffort: "none",
   responseModel: "gpt-5.6-sol",
+  responseReasoningEffort: "none",
 };
 
 const SETTING_INFO = globalThis.ZENBOT_SETTING_INFO;
+const MODEL_REASONING_EFFORTS = {
+  "gpt-5.6-luna": ["none", "low", "medium", "high", "xhigh", "max"],
+  "gpt-5.6-sol": ["none", "low", "medium", "high", "xhigh", "max"],
+};
 
 new MutationObserver(mount).observe(document.body, { childList: true, subtree: true });
 mount();
@@ -65,6 +71,10 @@ async function mount() {
   panel.querySelector("#zenbot-home-tab").addEventListener("click", () => selectTab(panel, "home"));
   panel.querySelector("#zenbot-settings-tab").addEventListener("click", () => selectTab(panel, "settings"));
   panel.querySelector("#zenbot-settings-form").addEventListener("submit", (event) => saveSettings(event, panel));
+  for (const type of ["summary", "response"]) {
+    panel.querySelector(`#zenbot-${type}-model`).addEventListener("change", () => configureReasoningControl(panel, type));
+    panel.querySelector(`#zenbot-${type}-reasoning`).addEventListener("input", () => updateReasoningLabel(panel, type));
+  }
   for (const button of panel.querySelectorAll("[data-info]")) {
     button.addEventListener("click", () => {
       panel.zenbotInfoTrigger = button;
@@ -145,7 +155,16 @@ function selectTab(panel, tab) {
 
 async function loadSettings(panel) {
   const saved = await chrome.storage.local.get("zenbotSettings");
-  panel.zenbotSettings = { ...DEFAULT_SETTINGS, ...(saved.zenbotSettings || {}) };
+  const settings = { ...DEFAULT_SETTINGS, ...(saved.zenbotSettings || {}) };
+  for (const type of ["summary", "response"]) {
+    const modelKey = `${type}Model`;
+    const effortKey = `${type}ReasoningEffort`;
+    if (!MODEL_REASONING_EFFORTS[settings[modelKey]]) settings[modelKey] = DEFAULT_SETTINGS[modelKey];
+    if (!MODEL_REASONING_EFFORTS[settings[modelKey]].includes(settings[effortKey])) {
+      settings[effortKey] = DEFAULT_SETTINGS[effortKey];
+    }
+  }
+  panel.zenbotSettings = settings;
   populateSettingsForm(panel, panel.zenbotSettings);
   updateReplyAvailability(panel);
   if (!panel.zenbotSettings.autoSummarize) {
@@ -161,7 +180,35 @@ function populateSettingsForm(panel, settings) {
   panel.querySelector("#zenbot-use-summary").checked = settings.useSummaryForResponse;
   panel.querySelector("#zenbot-summary-detail").value = settings.summaryDetail;
   panel.querySelector("#zenbot-summary-model").value = settings.summaryModel;
+  configureReasoningControl(panel, "summary", settings.summaryReasoningEffort);
   panel.querySelector("#zenbot-response-model").value = settings.responseModel;
+  configureReasoningControl(panel, "response", settings.responseReasoningEffort);
+}
+
+function configureReasoningControl(panel, type, preferredEffort) {
+  const model = panel.querySelector(`#zenbot-${type}-model`).value;
+  const efforts = MODEL_REASONING_EFFORTS[model] || [];
+  const slider = panel.querySelector(`#zenbot-${type}-reasoning`);
+  const control = slider.closest(".zenbot-reasoning-control");
+  slider.disabled = efforts.length === 0;
+  control.classList.toggle("is-disabled", slider.disabled);
+  slider.max = String(Math.max(0, efforts.length - 1));
+  const selectedEffort = preferredEffort || selectedReasoningEffort(panel, type);
+  slider.value = String(Math.max(0, efforts.indexOf(selectedEffort)));
+  updateReasoningLabel(panel, type);
+}
+
+function selectedReasoningEffort(panel, type) {
+  const model = panel.querySelector(`#zenbot-${type}-model`).value;
+  const efforts = MODEL_REASONING_EFFORTS[model] || [];
+  return efforts[Number(panel.querySelector(`#zenbot-${type}-reasoning`).value)] || null;
+}
+
+function updateReasoningLabel(panel, type) {
+  const effort = selectedReasoningEffort(panel, type);
+  panel.querySelector(`#zenbot-${type}-reasoning-value`).textContent = effort
+    ? effort.replace("xhigh", "Extra high").replace(/^./, (character) => character.toUpperCase())
+    : "Not available";
 }
 
 async function saveSettings(event, panel) {
@@ -175,12 +222,15 @@ async function saveSettings(event, panel) {
     useSummaryForResponse: panel.querySelector("#zenbot-use-summary").checked,
     summaryDetail: panel.querySelector("#zenbot-summary-detail").value,
     summaryModel: panel.querySelector("#zenbot-summary-model").value,
+    summaryReasoningEffort: selectedReasoningEffort(panel, "summary"),
     responseModel: panel.querySelector("#zenbot-response-model").value,
+    responseReasoningEffort: selectedReasoningEffort(panel, "response"),
   };
   await chrome.storage.local.set({ zenbotSettings: settings });
   panel.zenbotSettings = settings;
 
-  if (previous.summaryDetail !== settings.summaryDetail || previous.summaryModel !== settings.summaryModel) {
+  if (previous.summaryDetail !== settings.summaryDetail || previous.summaryModel !== settings.summaryModel
+    || previous.summaryReasoningEffort !== settings.summaryReasoningEffort) {
     panel.zenbotSummary = null;
     panel.zenbotTicketKey = null;
     panel.querySelector("#zenbot-summary").replaceChildren();
@@ -205,6 +255,7 @@ function updateReplyAvailability(panel) {
 async function generate(panel) {
   const note = panel.querySelector("#zenbot-note").value.trim();
   const button = panel.querySelector("#zenbot-generate");
+  const generationTime = panel.querySelector("#zenbot-generation-time");
   const status = panel.querySelector("#zenbot-status");
   const editor = document.querySelector('[role="textbox"][aria-label="Public reply composer"][contenteditable="true"]');
   const ticket = readTicket();
@@ -219,7 +270,9 @@ async function generate(panel) {
   panel.zenbotGenerating = true;
   updateReplyAvailability(panel);
   button.textContent = "Generating…";
+  generationTime.textContent = "";
   setStatus(status, "Generating reply…");
+  const startedAt = performance.now();
   try {
     const result = await chrome.runtime.sendMessage({
       type: "draft",
@@ -228,6 +281,8 @@ async function generate(panel) {
       summary: panel.zenbotSummary,
     });
     if (result.error) throw new Error(result.error);
+    generationTime.textContent = `${((performance.now() - startedAt) / 1000).toFixed(1)}s`;
+    generationTime.setAttribute("aria-label", `Reply generated in ${generationTime.textContent}`);
     const insertion = await chrome.runtime.sendMessage({ type: "insert", text: result.text });
     if (insertion.error) throw new Error(insertion.error);
     panel.querySelector("#zenbot-note").value = "";
