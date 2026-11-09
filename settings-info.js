@@ -46,15 +46,13 @@ globalThis.ZENBOT_SETTING_INFO = Object.freeze({
   summaryModel: {
     title: "Summary model",
     options: [
-      ["gpt-5.6-luna — Default", "Recommended for summaries. Benefit: faster and lighter for routine ticket analysis. Downside: may be less capable on difficult ticket histories."],
-      ["gpt-5.6-sol", "Benefit: stronger reasoning for complex tickets. Downside: may take longer and cost more."],
+      ["gpt-6-luna", "Used for summaries and responses. Adjust the reasoning effort below to suit the ticket."],
     ],
   },
   responseModel: {
     title: "Response model",
     options: [
-      ["gpt-5.6-sol — Default", "Recommended for responses. Benefit: produces complete, proactive replies for human review. Downside: may take longer and cost more."],
-      ["gpt-5.6-luna", "Benefit: potentially quicker and cheaper. Downside: may produce less complete replies on complex requests."],
+      ["gpt-6-luna", "Used for summaries and responses. Adjust the reasoning effort below to suit the ticket."],
     ],
   },
   reasoningEffort: {

@@ -7,6 +7,7 @@
     <style>
       body { width: 320px; margin: 0; padding: 16px; box-sizing: border-box; font: 14px system-ui; color: #17202a; }
       h1 { margin: 0 0 6px; font-size: 20px; }
+      #version { color: #5f6368; font-size: 12px; font-weight: 400; margin-left: 5px; }
       p { color: #5f6368; }
       label { display: block; margin: 14px 0 5px; font-weight: 600; }
       input, button { width: 100%; box-sizing: border-box; padding: 9px; border-radius: 6px; font: inherit; }
@@ -16,7 +17,7 @@
     </style>
   </head>
   <body>
-    <h1>Zenbot</h1>
+    <h1>Zenbot <span id="version"></span></h1>
     <p>Open a Zendesk ticket, then select the Zenbot icon in the right panel.</p>
     <label for="apiKey">OpenAI API key</label>
     <input id="apiKey" type="password" autocomplete="off" placeholder="sk-...">

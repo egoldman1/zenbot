@@ -1,5 +1,6 @@
 const apiKey = document.getElementById("apiKey");
 const status = document.getElementById("status");
+document.getElementById("version").textContent = `v${chrome.runtime.getManifest().version}`;
 
 chrome.storage.local.get("apiKey", (saved) => apiKey.value = saved.apiKey || "");
 document.getElementById("save").addEventListener("click", async () => {

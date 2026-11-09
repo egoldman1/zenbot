@@ -18,8 +18,8 @@ const settingsInfo = readFileSync(new URL("./settings-info.js", import.meta.url)
 console.assert(panelHtml.includes('id="zenbot-home"'));
 console.assert(panelHtml.includes('id="zenbot-settings-form"'));
 console.assert(panelHtml.includes('id="zenbot-generation-time"'));
-console.assert(panelHtml.includes("gpt-5.6-luna (Default — recommended)"));
-console.assert(panelHtml.includes("gpt-5.6-sol (Default — recommended)"));
+
+
 console.assert(!panelHtml.includes("<script"));
 console.assert(panelCss.includes("#zenbot-settings select"));
 console.assert(settingsInfo.includes("ZENBOT_SETTING_INFO"));
@@ -36,7 +36,7 @@ console.assert(normalizeSettings({ responseLength: "invalid", autoSummarize: fal
 console.assert(normalizeSettings({ useSummaryForResponse: true }).useSummaryForResponse === true);
 console.assert(normalizeSettings({ summaryModel: "unknown" }).summaryModel === DEFAULT_SETTINGS.summaryModel);
 console.assert(normalizeSettings({ summaryModel: "unsupported-model" }).summaryModel === DEFAULT_SETTINGS.summaryModel);
-console.assert(MODEL_REASONING_EFFORTS["gpt-5.6-sol"].includes("max"));
+console.assert(MODEL_REASONING_EFFORTS["gpt-6-luna"].includes("max"));
 console.assert(draftingPreferences({ responseLength: "concise", toneInstructions: "Direct and calm.", signature: "Alex" }).includes("Direct and calm."));
 console.assert(appendSignature("Hello", "Kind regards,\nAlex") === "Hello\n\nKind regards,\nAlex");
 console.assert(responseContext({ useSummaryForResponse: false }, null, { subject: "Login", messages: "Cannot sign in" }).includes("FULL ZENDESK TICKET"));
@@ -46,3 +46,11 @@ console.assert(summaryFromResponse({ output_text: JSON.stringify({
   nextSteps: ["Acknowledge the issue.", "Explain what information is needed."],
 }) }).nextSteps.length === 2);
 console.log("check passed");
+
+for (const model of ["gpt-5.6-luna", "gpt-5.6-sol", "unknown"]) {
+ const settings = normalizeSettings({summaryModel: model, responseModel: model, summaryReasoningEffort: "high", responseReasoningEffort: "max"});
+ console.assert(settings.summaryModel === "gpt-6-luna" && settings.responseModel === "gpt-6-luna");
+ console.assert(settings.summaryReasoningEffort === "high" && settings.responseReasoningEffort === "max");
+}
+console.assert(!/<select id="zenbot-(summary|response)-model"/.test(panelHtml));
+console.assert(panelHtml.includes('id="zenbot-summary-reasoning"') && panelHtml.includes('id="zenbot-response-reasoning"'));
